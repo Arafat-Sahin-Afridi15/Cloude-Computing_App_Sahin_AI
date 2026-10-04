@@ -42,9 +42,9 @@ if (DATABASE_URL) {
 } else {
   const fs = require("fs");
   const path = require("path");
-  const Database = require("better-sqlite3");
+  const { DatabaseSync } = require("node:sqlite"); // built into Node 22.5+, no install needed
   fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
-  const db = new Database(path.join(__dirname, "data", "app.db"));
+  const db = new DatabaseSync(path.join(__dirname, "data", "app.db"));
   impl = {
     name: "SQLite (local file)",
     async init() {
