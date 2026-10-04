@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sahin AI | Arafat Sahin Afridi</title>
+
+  <!-- Puter AI -->
+  <script src="https://js.puter.com/v2/"></script>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #050816;
+      --card: rgba(15, 23, 42, 0.72);
+      --card-border: rgba(148, 163, 184, 0.16);
+      --primary: #38bdf8;
+      --secondary: #8b5cf6;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --input: rgba(2, 6, 23, 0.75);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.15), transparent 28%),
+        radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.18), transparent 30%),
+        linear-gradient(135deg, #020617, #0f172a 55%, #111827);
+      overflow-x: hidden;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.25;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .orb.one {
+      width: 260px;
+      height: 260px;
+      background: #0ea5e9;
+      top: 5%;
+      left: -80px;
+    }
+
+    .orb.two {
+      width: 320px;
+      height: 320px;
+      background: #7c3aed;
+      right: -100px;
+      bottom: 5%;
+      animation-delay: 2s;
+    }
+
+    .orb.three {
+      width: 180px;
+      height: 180px;
+      background: #06b6d4;
+      left: 50%;
+      top: 45%;
+      animation-delay: 4s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+      }
+
+      50% {
+        transform: translateY(-35px) translateX(20px);
+      }
+    }
+
+
+    .container {
+      width: min(100%, 920px);
+      margin: auto;
+      padding: 55px 20px;
+    }
+
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: rgba(56, 189, 248, 0.08);
+      border-radius: 999px;
+      color: #7dd3fc;
+      font-size: 0.82rem;
+      margin-bottom: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #22c55e;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+      }
+    }
+
+    header h1 {
+      font-size: clamp(2.3rem, 7vw, 4.2rem);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 15px;
+
+      background: linear-gradient(
+        90deg,
+        #f8fafc,
+        #7dd3fc,
+        #a78bfa,
+        #f8fafc
+      );
+      background-size: 250% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 5s linear infinite;
+    }
+
+    @keyframes gradientText {
+      to {
+        background-position: 250% center;
+      }
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 620px;
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    .student-info {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .info-item {
+      padding: 9px 14px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid var(--card-border);
+      color: #cbd5e1;
+      font-size: 0.82rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .info-item strong {
+      color: #f8fafc;
+    }
+
+    .ai-card {
+      position: relative;
+      padding: 32px;
+      border-radius: 25px;
+
+      background: var(--card);
+      border: 1px solid var(--card-border);
+
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+      overflow: hidden;
+    }
+
+    .ai-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        #38bdf8,
+        #8b5cf6,
+        transparent
+      );
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .ai-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      font-size: 1.5rem;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(56, 189, 248, 0.2),
+          rgba(139, 92, 246, 0.2)
+        );
+
+      border: 1px solid rgba(125, 211, 252, 0.2);
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1);
+    }
+
+    .card-header h2 {
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+
+    .card-header p {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 145px;
+      resize: vertical;
+
+      padding: 18px 18px 42px;
+
+      color: var(--text);
+      background: var(--input);
+
+      border: 1px solid #263449;
+      border-radius: 16px;
+
+      outline: none;
+
+      font-size: 0.96rem;
+      line-height: 1.6;
+
+      transition: 0.25s ease;
+
+      font-family: inherit;
+    }
+
+    textarea::placeholder {
+      color: #64748b;
+    }
+
+    textarea:focus {
+      border-color: rgba(56, 189, 248, 0.65);
+      box-shadow:
+        0 0 0 4px rgba(56, 189, 248, 0.08),
+        0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .counter {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      color: #64748b;
+      font-size: 0.72rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      border: none;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    #askBtn {
+      flex: 1;
+      padding: 14px 22px;
+
+      border-radius: 13px;
+
+      color: #020617;
+      font-size: 0.95rem;
+      font-weight: 700;
+
+      background: linear-gradient(
+        135deg,
+        #38bdf8,
+        #818cf8
+      );
+
+      box-shadow:
+        0 10px 25px rgba(56, 189, 248, 0.18);
+    }
+
+    #askBtn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 15px 35px rgba(56, 189, 248, 0.3);
+    }
+
+    #askBtn:active {
+      transform: translateY(0);
+    }
+
+    #askBtn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #clearBtn {
+      padding: 14px 20px;
+      border-radius: 13px;
+
+      color: #cbd5e1;
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid #334155;
+    }
+
+    #clearBtn:hover {
+      background: rgba(51, 65, 85, 0.8);
+    }
+
+    .response-container {
+      margin-top: 25px;
+    }
+
+    .response-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .response-label span:first-child {
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .powered {
+      color: #64748b;
+      font-size: 0.72rem;
+    }
+
+    #response {
+      min-height: 125px;
+      padding: 18px;
+
+      border-radius: 16px;
+
+      background: rgba(2, 6, 23, 0.68);
+      border: 1px solid #263449;
+
+      color: #dbeafe;
+
+      white-space: pre-wrap;
+      line-height: 1.7;
+      font-size: 0.94rem;
+
+      overflow-wrap: anywhere;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+    }
+
+    .loading span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #38bdf8;
+      animation: loading 1.2s infinite;
+    }
+
+    .loading span:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .loading span:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    @keyframes loading {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+
+      30% {
+        transform: translateY(-7px);
+        opacity: 1;
+      }
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .feature {
+      padding: 15px;
+      text-align: center;
+
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+
+      color: #94a3b8;
+      font-size: 0.75rem;
+    }
+
+    .feature-icon {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 7px;
+    }
+
+
+    footer {
+      text-align: center;
+      margin-top: 28px;
+      color: #64748b;
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+
+    footer strong {
+      color: #94a3b8;
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        padding: 35px 14px;
+      }
+
+      .ai-card {
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      header h1 {
+        letter-spacing: -1px;
+      }
+
+      .student-info {
+        gap: 7px;
+      }
+
+      .info-item {
+        font-size: 0.72rem;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      #clearBtn {
+        width: 100%;
+      }
+    }
+
+    /* ---- History ---- */
+    .history{margin-top:28px;padding:26px;border-radius:25px;background:var(--card);border:1px solid var(--card-border);backdrop-filter:blur(22px)}
+    .history-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+    .history-head h2{font-size:1.15rem}
+    .mini{padding:7px 12px;border-radius:10px;border:1px solid var(--card-border);background:rgba(15,23,42,.6);color:#cbd5e1;font-size:.78rem;cursor:pointer}
+    .mini:hover{border-color:var(--primary);color:#fff}
+    .h-item{padding:14px;border-radius:14px;background:var(--input);border:1px solid #1e293b;margin-bottom:10px}
+    .h-q{font-weight:600;font-size:.92rem;margin-bottom:6px;cursor:pointer}
+    .h-a{color:var(--muted);font-size:.85rem;line-height:1.6;white-space:pre-wrap;max-height:90px;overflow:hidden}
+    .h-item.open .h-a{max-height:none}
+    .h-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:.72rem;color:#64748b;gap:8px;flex-wrap:wrap}
+    .h-empty{color:var(--muted);font-size:.88rem}
+  </style>
+</head>
+
+<body>
+
+  <!-- Animated Background -->
+  <div class="background">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+  </div>
+
+  <main class="container">
+
+    <!-- Header -->
+    <header>
+
+      <div class="badge">
+        <span class="status-dot"></span>
+        Sahin AI • ONLINE
+      </div>
+
+      <h1>Sahin AI</h1>
+
+      <p class="subtitle">
+        A modern AI-powered cloud application that lets you ask questions,
+        generate ideas, and interact with artificial intelligence instantly.
+      </p>
+
+      <div class="student-info">
+        <div class="info-item">
+          <strong>Name:</strong> Arafat Sahin Afridi
+        </div>
+
+        <div class="info-item">
+          <strong>ID:</strong> 2026512801
+        </div>
+
+        <div class="info-item">
+          <strong>Course:</strong> AI Cloud Service
+        </div>
+
+        <div class="info-item">
+          <strong>Instructor:</strong> Prof. Julfikhsan Ahmad Mukhti
+        </div>
+      </div>
+
+    </header>
+
+
+    <!-- AI Application -->
+    <section class="ai-card">
+
+      <div class="card-header">
+
+        <div class="ai-icon">
+          🤖
+        </div>
+
+        <div>
+          <h2>Ask the AI</h2>
+          <p>Enter your question or prompt below</p>
+        </div>
+
+      </div>
+
+
+      <!-- Input -->
+      <div class="input-wrapper">
+
+        <textarea
+          id="prompt"
+          maxlength="3000"
+          placeholder="Example: Explain artificial intelligence in simple words..."
+          oninput="updateCounter()"
+        ></textarea>
+
+        <div class="counter">
+          <span id="charCount">0</span> / 3000
+        </div>
+
+      </div>
+
+
+      <!-- Buttons -->
+      <div class="actions">
+
+        <button id="askBtn" onclick="askAI()">
+          ✨ Ask AI
+        </button>
+
+        <button id="clearBtn" onclick="clearChat()">
+          🗑 Clear
+        </button>
+
+      </div>
+
+
+      <!-- Response -->
+      <div class="response-container">
+
+        <div class="response-label">
+          <span>AI Response</span>
+          <span class="powered">Powered by Puter AI</span>
+        </div>
+
+        <div id="response">
+          Your AI-generated response will appear here...
+        </div>
+
+      </div>
+
+
+      <!-- Features -->
+      <div class="features">
+
+        <div class="feature">
+          <span class="feature-icon">⚡</span>
+          Fast Response
+        </div>
+
+        <div class="feature">
+          <span class="feature-icon">☁️</span>
+          Cloud Powered
+        </div>
+
+        <div class="feature">
+          <span class="feature-icon">🔒</span>
+          Simple & Secure
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- History (stored in database) -->
+    <section class="history">
+      <div class="history-head">
+        <h2>🗄 Saved History <small id="dbCount" style="color:var(--muted);font-weight:400"></small></h2>
+        <div>
+          <button class="mini" onclick="exportHistory()">⬇ Export JSON</button>
+          <button class="mini" onclick="clearHistory()">🗑 Delete all</button>
+        </div>
+      </div>
+      <div id="historyList"><p class="h-empty">Loading...</p></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <strong>AI Cloud Service</strong><br />
+      Developed by Arafat Sahin Afridi • Student ID: 2026512801
+    </footer>
+
+  </main>
+
+
+  <script>
+
+
+    function updateCounter() {
+      const prompt = document.getElementById("prompt");
+      const count = document.getElementById("charCount");
+
+      count.textContent = prompt.value.length;
+    }
+
+    async function askAI() {
+
+      const promptEl = document.getElementById("prompt");
+      const responseEl = document.getElementById("response");
+      const btn = document.getElementById("askBtn");
+
+      const prompt = promptEl.value.trim();
+
+      // Empty prompt validation
+      if (!prompt) {
+
+        responseEl.textContent =
+          "Please enter a question or prompt first.";
+
+        promptEl.focus();
+
+        return;
+      }
+
+
+      
+      btn.disabled = true;
+      btn.innerHTML = "⏳ Thinking...";
+
+
+      responseEl.innerHTML = `
+        <div class="loading">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span>AI is thinking...</span>
+        </div>
+      `;
+
+
+      try {
+
+
+        const response = await puter.ai.chat(
+          prompt,
+          {
+            model: "gpt-5.4-nano"
+          }
+        );
+
+
+
+        let text =
+          (
+            response &&
+            response.message &&
+            response.message.content
+          ) ||
+          (
+            typeof response === "string"
+              ? response
+              : JSON.stringify(response)
+          );
+
+
+        responseEl.textContent = text;
+        saveHistory(prompt, text);
+
+      }
+
+      catch (error) {
+
+        console.error("AI Error:", error);
+
+        responseEl.textContent =
+          "❌ Sorry, something went wrong while connecting to the AI service.\n\nPlease try again.";
+
+      }
+
+      finally {
+
+        btn.disabled = false;
+        btn.innerHTML = "✨ Ask AI";
+
+      }
+
+    }
+
+
+    function clearChat() {
+
+      document.getElementById("prompt").value = "";
+
+      document.getElementById("response").textContent =
+        "Your AI-generated response will appear here...";
+
+      document.getElementById("charCount").textContent = "0";
+
+    }
+
+
+    document
+      .getElementById("prompt")
+      .addEventListener("keydown", function(event) {
+
+        if (event.ctrlKey && event.key === "Enter") {
+
+          askAI();
+
+        }
+
+      });
+
+    // ---------- Database-backed history ----------
+    const SID_KEY = "sahinai_sid";
+    function getSid() {
+      let id = null;
+      try { id = localStorage.getItem(SID_KEY); } catch (e) {}
+      if (!id) {
+        id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2));
+        try { localStorage.setItem(SID_KEY, id); } catch (e) {}
+      }
+      return id;
+    }
+    const SID = getSid();
+    let historyCache = [];
+
+    async function saveHistory(prompt, response) {
+      try {
+        await fetch("/api/history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId: SID, prompt, response })
+        });
+        loadHistory();
+      } catch (e) { console.error("Save failed", e); }
+    }
+
+    async function loadHistory() {
+      const box = document.getElementById("historyList");
+      try {
+        const r = await fetch("/api/history?sessionId=" + encodeURIComponent(SID));
+        historyCache = await r.json();
+        document.getElementById("dbCount").textContent = historyCache.length ? "(" + historyCache.length + ")" : "";
+        box.innerHTML = "";
+        if (!historyCache.length) { box.innerHTML = '<p class="h-empty">No saved questions yet. Ask the AI something!</p>'; return; }
+        historyCache.forEach(h => {
+          const d = document.createElement("div"); d.className = "h-item";
+          const q = document.createElement("div"); q.className = "h-q"; q.textContent = "Q: " + h.prompt;
+          q.title = "Click to expand";
+          q.onclick = () => d.classList.toggle("open");
+          const a = document.createElement("div"); a.className = "h-a"; a.textContent = h.response;
+          const m = document.createElement("div"); m.className = "h-meta";
+          const t = document.createElement("span"); t.textContent = new Date(h.created_at).toLocaleString();
+          const btns = document.createElement("span");
+          [["↩ Reuse", () => { document.getElementById("prompt").value = h.prompt; updateCounter(); window.scrollTo({top:0,behavior:"smooth"}); }],
+           ["📋 Copy", () => navigator.clipboard.writeText(h.response)],
+           ["✕ Delete", async () => { await fetch("/api/history/" + h.id + "?sessionId=" + encodeURIComponent(SID), {method:"DELETE"}); loadHistory(); }]
+          ].forEach(([label, fn]) => { const b = document.createElement("button"); b.className = "mini"; b.style.marginLeft = "6px"; b.textContent = label; b.onclick = fn; btns.appendChild(b); });
+          m.append(t, btns); d.append(q, a, m); box.appendChild(d);
+        });
+      } catch (e) { box.innerHTML = '<p class="h-empty">Could not load history.</p>'; }
+    }
+
+    async function clearHistory() {
+      if (!confirm("Delete all your saved history?")) return;
+      await fetch("/api/history?sessionId=" + encodeURIComponent(SID), { method: "DELETE" });
+      loadHistory();
+    }
+
+    function exportHistory() {
+      const blob = new Blob([JSON.stringify(historyCache, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = "sahin-ai-history.json"; a.click();
+    }
+
+    loadHistory();
+
+  </script>
+
+</body>
+</html>
