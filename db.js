@@ -1,12 +1,22 @@
 // db.js — one small interface, two backends:
 //  • PostgreSQL when DATABASE_URL is set (use this on Render)
 //  • SQLite file (data/app.db) when it isn't (zero-setup local testing)
-const DATABASE_URL = process.env.DATABASE_URL;
+// Clean common paste mistakes: spaces, quotes, a leading "DATABASE_URL="
+const DATABASE_URL = (process.env.DATABASE_URL || "")
+  .trim().replace(/^DATABASE_URL\s*=\s*/i, "").replace(/^["']|["']$/g, "");
 
 let impl;
 
 if (DATABASE_URL) {
   const { Pool } = require("pg");
+  try {
+    const u = new URL(DATABASE_URL);
+    console.log(`DATABASE_URL host: "${u.hostname}" db: "${u.pathname.slice(1)}"`);
+    if (!u.hostname.startsWith("dpg-") && !/localhost|127\.0\.0\.1|\./.test(u.hostname))
+      console.warn("WARNING: host does not look like a Render database host (dpg-...). Re-copy the full Internal Database URL.");
+  } catch (e) {
+    console.error("DATABASE_URL is not a valid URL. Re-copy the full postgresql://... string from Render.");
+  }
   const local = /localhost|127\.0\.0\.1/.test(DATABASE_URL);
   const pool = new Pool({
     connectionString: DATABASE_URL,
